@@ -1,0 +1,73 @@
+# 创建文件 countdown.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>下班倒计时</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background: rgba(0,0,0,0.6);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+        #countdown {
+            font-size: 4rem;
+            letter-spacing: 5px;
+            font-weight: bold;
+        }
+        .tips {
+            margin-top: 2rem;
+            font-style: italic;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⏱️ 下班倒计时</h1>
+        <div id="countdown">--:--:--</div>
+        <div class="tips">距离今日18:00还有...</div>
+    </div>
+
+    <script>
+        function updateCountdown() {
+            const now = new Date();
+            let offWork = new Date(now);
+            offWork.setHours(18, 0, 0, 0);  // 设置18:00
+            
+            // 若已过18点，计算次日倒计时
+            if (now > offWork) {
+                offWork.setDate(offWork.getDate() + 1);
+            }
+            
+            const diff = offWork - now;
+            const hours = Math.floor(diff / 3600000).toString().padStart(2, '0');
+            const minutes = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
+            const seconds = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
+            
+            document.getElementById('countdown').innerHTML = 
+                `${hours}:${minutes}:${seconds}`;
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
