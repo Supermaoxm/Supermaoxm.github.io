@@ -1,58 +1,65 @@
-# 创建文件 countdown.html
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>下班倒计时</title>
-    <meta charset="UTF-8">
+    <title>下班倒计时+自动换背景</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
             color: white;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
+            text-shadow: 0 0 10px rgba(0,0,0,0.7);
+            background-size: cover;
+            background-position: center;
+            animation: bgChange 30s infinite;
+        }
+        @keyframes bgChange {
+            0% { background-image: url('https://picsum.photos/1920/1080?random=1'); }
+            25% { background-image: url('https://picsum.photos/1920/1080?random=2'); }
+            50% { background-image: url('https://picsum.photos/1920/1080?random=3'); }
+            75% { background-image: url('https://picsum.photos/1920/1080?random=4'); }
+            100% { background-image: url('https://picsum.photos/1920/1080?random=5'); }
         }
         .container {
+            background: rgba(0,0,0,0.5);
+            padding: 2rem 4rem;
+            border-radius: 15px;
             text-align: center;
-            background: rgba(0,0,0,0.6);
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
         }
         h1 {
             font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            margin-bottom: 1rem;
         }
         #countdown {
-            font-size: 4rem;
-            letter-spacing: 5px;
+            font-size: 3rem;
             font-weight: bold;
+            letter-spacing: 3px;
         }
         .tips {
-            margin-top: 2rem;
+            margin-top: 1rem;
             font-style: italic;
-            opacity: 0.8;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>⏱️ 下班倒计时</h1>
+        <h1>⏱️ 牛马回归大自然倒计时</h1>
         <div id="countdown">--:--:--</div>
-        <div class="tips">距离今日18:00还有...</div>
+        <div class="tips">今日目标：准时下班！</div>
     </div>
 
     <script>
+        // 倒计时功能
         function updateCountdown() {
             const now = new Date();
             let offWork = new Date(now);
-            offWork.setHours(18, 0, 0, 0);  // 设置18:00
+            offWork.setHours(18, 0, 0, 0);
             
-            // 若已过18点，计算次日倒计时
             if (now > offWork) {
                 offWork.setDate(offWork.getDate() + 1);
             }
@@ -65,8 +72,21 @@
             document.getElementById('countdown').innerHTML = 
                 `${hours}:${minutes}:${seconds}`;
         }
-        
+
+        // 背景切换控制
+        function changeBackground() {
+            const bgUrls = [
+                'linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d)',
+                'linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b)',
+                'linear-gradient(135deg, #0f2027, #203a43, #2c5364)',
+                'linear-gradient(135deg, #654ea3, #eaafc8)'
+            ];
+            const randomBg = bgUrls[Math.floor(Math.random() * bgUrls.length)];
+            document.body.style.background = randomBg;
+        }
+
         setInterval(updateCountdown, 1000);
+        setInterval(changeBackground, 10000); // 每10秒切换背景
         updateCountdown();
     </script>
 </body>
